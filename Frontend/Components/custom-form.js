@@ -65,7 +65,7 @@ export default class CustomForm extends HTMLElement {
     }
     handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await fetch(`http://localhost:5000?email=${this.email.value}&password=${this.password.value}`);
+        const response = await fetch(`http://localhost:5000/home?email=${this.email.value}&password=${this.password.value}`);
         const data = await response.json();
         this.showCustomAlert({
             color: response.status === 200 ? 'success' : 'error',
