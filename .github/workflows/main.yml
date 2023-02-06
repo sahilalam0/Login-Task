@@ -30,11 +30,10 @@ jobs:
       id: update_pull_requests
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
       run: |
         pr_numbers=$(cat pr_numbers.txt)
         echo "PR numbers: ${pr_numbers}"
-        env:
-          working-directory: ${{ env.GITHUB_WORKSPACE }}
         for pr_number in ${pr_numbers}; do
           git checkout main
           git fetch origin main
