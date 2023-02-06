@@ -31,7 +31,7 @@ creates a new user ,request body requires only email, and auto generated passwor
 Request body :
 ```
 {
-  "email": "user-email"
+  "email": " user-email"
 }
 ```
 
