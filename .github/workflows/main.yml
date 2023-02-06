@@ -15,6 +15,11 @@ jobs:
     - name: Install jq
       run: sudo apt-get update && sudo apt-get install -y jq
       
+    - name: Checkout main branch
+      uses: actions/checkout@v2
+      with:
+        ref: main
+      
     - name: Get open pull requests
       id: get_pull_requests
       env:
@@ -34,24 +39,8 @@ jobs:
         pr_numbers=$(cat pr_numbers.txt)
         echo "PR numbers: ${pr_numbers}"
         for pr_number in ${pr_numbers}; do
-          checkout_dir="pr-${pr_number}"
-          echo "Checking out PR ${pr_number} to ${checkout_dir}"
-          
-          # Clone the repository
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git ${checkout_dir}
-
-          # Checkout the pull request
-          cd ${checkout_dir}
-          git fetch origin "pull/${pr_number}/head:pr-${pr_number}"
-          git checkout pr-${pr_number}
-
-          # Fetch the latest changes from main
-          git remote add upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git fetch upstream main
-          git checkout main
-          git pull upstream main
-
-          # Push the changes to the pull request
-          git push origin pr-${pr_number}
+          git checkout -b pr-$pr_number origin/pr/$pr_number
+          git pull origin main
+          git commit --no-edit
+          git push origin pr-$pr_number
         done
-      shell: bash
