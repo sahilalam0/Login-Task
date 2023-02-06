@@ -28,15 +28,14 @@ jobs:
 
     - name: Set PR numbers variable
       run: |
-        pr_numbers=$(cat pr_numbers.txt)
-        echo "PR numbers: ${pr_numbers}"
-        
+        pr_numbers=$(cat pr_numbers.txt)        
 
     - name: Update pull requests
       id: update_pull_requests
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        echo "PR numbers: ${pr_numbers}"
         for pr_number in ${pr_numbers}; do
           echo "${pr_number}"
         done
