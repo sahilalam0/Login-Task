@@ -39,8 +39,8 @@ jobs:
         pr_numbers=$(cat pr_numbers.txt)
         echo "PR numbers: ${pr_numbers}"
         for pr_number in ${pr_numbers}; do
-          git checkout $pr_number
+          git checkout "pr/$pr_number"
           git pull origin main
           git commit --no-edit
-          git push origin $pr_number
+          git push origin "pr/$pr_number"
         done
