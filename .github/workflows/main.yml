@@ -30,15 +30,11 @@ jobs:
       id: update_pull_requests
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: ${{ env.GITHUB_WORKSPACE }}
       run: |
-        pr_numbers=$(cat pr_numbers.txt)
-        echo "PR numbers: ${pr_numbers}"
         for pr_number in ${pr_numbers}; do
-          git checkout main
-          git fetch origin main
-          git checkout -b update-pr-$pr_number
-          git merge origin/main
-          git push -u origin update-pr-$pr_number:pr/$pr_number
+          curl -sSL -X PUT -H "Authorization: token ${GITHUB_TOKEN}" \
+               -H "Accept: application/vnd.github+json" \
+               https://api.github.com/repos/${{ github.repository }}/pulls/${pr_number}/merge \
+               -d '{"base":"main"}'
         done
       shell: bash
