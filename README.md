@@ -82,7 +82,7 @@ deletes the user with userid passed in the url param.
 Response :
 ```
 {
-  message :" message here "
+  message :"message here "
 }
 
 ```
