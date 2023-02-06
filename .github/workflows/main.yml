@@ -17,6 +17,8 @@ jobs:
       
     - name: Fetch all open pull requests
       run: |
+        echo "token: $GITHUB_TOKEN"
+        echo "repo: $GITHUB_REPOSITORY"
         pr_numbers=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \ https://api.github.com/repos/$GITHUB_REPOSITORY/pulls?state=open | jq '.[].number')
         echo "Open PR numbers: $pr_numbers"
 
