@@ -33,6 +33,7 @@ jobs:
       run: |
         pr_numbers=$(cat pr_numbers.txt)
         echo "PR numbers: ${pr_numbers}"
+        cd ${{ env.GITHUB_WORKSPACE }}
         for pr_number in ${pr_numbers}; do
           git checkout main
           git fetch origin main
