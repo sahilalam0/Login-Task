@@ -31,6 +31,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        pr_numbers=$(cat pr_numbers.txt)
+        echo "PR numbers: ${pr_numbers}"
         for pr_number in ${pr_numbers}; do
           curl -sSL -X PUT -H "Authorization: token ${GITHUB_TOKEN}" \
                -H "Accept: application/vnd.github+json" \
