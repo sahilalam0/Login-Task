@@ -17,7 +17,7 @@ jobs:
       
     - name: Get open pull requests
       id: get_prs
-      uses: actions/github@v2
+      uses: actions/github@v3
       with:
         action: list
         entity: pull_requests
