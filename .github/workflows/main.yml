@@ -1,0 +1,45 @@
+name: Update PRs on merge with master
+
+on:
+  pull_request:
+    types: [closed]
+  push:
+    branches:
+      - main
+
+jobs:
+  update_prs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install jq
+      run: sudo apt-get update && sudo apt-get install -y jq
+      
+    - name: Get open pull requests
+      id: get_prs
+      uses: actions/github@v2
+      with:
+        action: list
+        entity: pull_requests
+        ref: main
+        state: open
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Fetch all open pull requests
+      run: |
+        pr_numbers=$(jq '.[].number' <$GITHUB_EVENT_PATH)
+        echo "Open PR numbers: $pr_numbers"
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Update each pull request with latest changes from master
+      run: |
+        for pr_number in $pr_numbers; do
+          git fetch origin main:main
+          git checkout main
+          git checkout -b update-pr-$pr_number
+          git merge origin/main
+          git push -u origin update-pr-$pr_number:pr/$pr_number
+        done
