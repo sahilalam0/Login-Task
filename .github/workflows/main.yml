@@ -28,7 +28,7 @@ jobs:
         curl -sSL -H "Authorization: token ${GITHUB_TOKEN}" \
              -H "Accept: application/vnd.github+json" \
              https://api.github.com/repos/${{ github.repository }}/pulls?state=open \
-             | jq '.[].number' > pr_numbers.txt
+             | jq '.[].head.ref' > pr_numbers.txt
       shell: bash
 
     - name: Update pull requests
@@ -39,8 +39,8 @@ jobs:
         pr_numbers=$(cat pr_numbers.txt)
         echo "PR numbers: ${pr_numbers}"
         for pr_number in ${pr_numbers}; do
-          git checkout -b pr-$pr_number origin/pr/$pr_number
+          git checkout $pr_number
           git pull origin main
           git commit --no-edit
-          git push origin pr-$pr_number
+          git push origin $pr_number
         done
