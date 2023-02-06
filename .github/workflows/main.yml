@@ -20,14 +20,15 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        pr_numbers=$(curl -sSL -H "Authorization: token ${GITHUB_TOKEN}" \
-           -H "Accept: application/vnd.github+json" \
-           https://api.github.com/repos/${{ github.repository }}/pulls?state=open \
-           | jq '.[].number')
+        curl -sSL -H "Authorization: token ${GITHUB_TOKEN}" \
+             -H "Accept: application/vnd.github+json" \
+             https://api.github.com/repos/${{ github.repository }}/pulls?state=open \
+             | jq '.[].number' > pr_numbers.txt
+      shell: bash
 
-
-    - name: Print pull request numbers
+    - name: Set PR numbers variable
       run: |
+        pr_numbers=$(cat pr_numbers.txt)
         echo "PR numbers: ${pr_numbers}"
         
 
