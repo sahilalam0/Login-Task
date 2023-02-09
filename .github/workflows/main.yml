@@ -38,7 +38,7 @@ jobs:
       run: |
         pr_numbers=$(cat pr_numbers.txt)
         echo "PR numbers: ${pr_numbers}"
-        git config --globa pull.rebase false
+        git config --globa pull.rebase true
         git config --global user.email "sahil.mansoor@anywhere.co"
         git config --global user.name "Sahil Alam"
         git checkout main
