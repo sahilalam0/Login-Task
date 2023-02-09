@@ -46,7 +46,7 @@ jobs:
         for pr_number in ${pr_numbers}; do
           unquoted_branch_name=${pr_number//\"}
           git checkout $unquoted_branch_name
-          result=$(git pull origin main)
+          result=$(git pull origin main --allow-unrelated-histories)
           if [[ $result == *"conflict"* ]]; then
             echo "Conflict found in branch $unquoted_branch_name, skipping..."
             continue
