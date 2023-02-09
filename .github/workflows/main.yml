@@ -38,6 +38,8 @@ jobs:
       run: |
         pr_numbers=$(cat pr_numbers.txt)
         echo "PR numbers: ${pr_numbers}"
+        git checkout main
+        git pull
         for pr_number in ${pr_numbers}; do
           unquoted_branch_name=${pr_number//\"}
           git checkout $unquoted_branch_name
