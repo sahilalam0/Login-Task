@@ -46,8 +46,7 @@ jobs:
         for pr_number in ${pr_numbers}; do
           unquoted_branch_name=${pr_number//\"}
           git checkout $unquoted_branch_name
-          git fetch origin main
-          git merge origin/main
+          git pull origin main
           git commit --no-edit
           git push origin $unquoted_branch_name
         done
